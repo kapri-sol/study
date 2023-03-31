@@ -1,13 +1,48 @@
 # 비동기
-NodeJS를 배우면 제일 처음 마주하게 되는 벽이 하나 있다. 바로 비동기에 대한 개념이다. C나 C++, JAVA를 통해 개발을 입문했다면 익숙치 않을 것이다. 호출한 함수의 실행이 끝나지도 않았는데 다음 동작이 수행되는 것을 보면 어떻게 동작이 실행될지 예상이 잘 가지 않는다. 그럴때면 이런 생각이 든다.
+Javascript를 배우면 제일 처음 마주하게 되는 벽이 하나 있다. 바로 `비동기`에 대한 개념이다.
+동기식 프로그래밍에 익숙한 개발자라면 본인의 생각과 전혀 다르게 동작하는 코드를 보며 
 
-`도대체 왜 Javascript 코드는 왜 비동기로 실행될까?`
+다음의 Javascript 예제 코드를 확인해보자.
 
-먼저 NodeJS가 어디서 왔는지 생각해보자. Javasciprt는 웹브라우저라는 런타임에서만 동작하는 스크립트 언어였다. 이 스크립트 언어를 서버에서도 동작하도록 만든 런타임이 NodeJS이다. 그럼 웹브라우저에서의 Javasciprt가 비동기적으로 동작했기때문에 그러지 않을까?
+```javascript
+console.log('A');
+
+setTimeout(() => {
+    console.log('B');
+}, 1000);
+
+console.log('C');
+```
+
+- console.log 는 출력함수이다
+- setTimeout은 두번째 인자로 넣은 시간(ms)이 지나면 첫번째 인자로 넣은 함수를 실행시켜주는 함수이다.
+
+위의 코드는 어떻게 출력될까?
+
+[동기]
+```
+A
+// 1초...
+B 
+C
+```
+
+일반적으로 이런 출력을 예상할 것이다.
+
+[비동기]
+```
+A
+C
+// 1초...
+B
+```
+
+하지만 Javascript 코드는 실제로 이렇게 출력된다.
+
+`도대체 왜 Javascript 코드는 이렇게 실행될까?`
+
 
 ## 싱글 스레드
-
-`그럼 웹 브라우저에서 Javascript는 왜 비동기 방식으로 동작해야했을까?`
 
 Javascript는 웹 브라우저에서 싱글스레드로 동작한다. 왜 싱글 스레드 방식일지 검색해 보면 이런 결과가 나온다.
 
@@ -39,8 +74,7 @@ Javascript는 웹 브라우저에서 싱글스레드로 동작한다. 왜 싱글
 ## 참고
 - [자바스크립트는 왜 싱글 쓰레드일까?](https://chanyeong.com/blog/post/44)
 - [자바스크립트는 왜 싱글 스레드를 선택했을까? 프로세스, 스레드, 비동기, 동기, 자바스크립트 엔진, 이벤트루프](https://miracleground.tistory.com/entry/%EC%9E%90%EB%B0%94%EC%8A%A4%ED%81%AC%EB%A6%BD%ED%8A%B8%EB%8A%94-%EC%99%9C-%EC%8B%B1%EA%B8%80-%EC%8A%A4%EB%A0%88%EB%93%9C%EB%A5%BC-%EC%84%A0%ED%83%9D%ED%96%88%EC%9D%84%EA%B9%8C-%ED%94%84%EB%A1%9C%EC%84%B8%EC%8A%A4-%EC%8A%A4%EB%A0%88%EB%93%9C-%EB%B9%84%EB%8F%99%EA%B8%B0-%EB%8F%99%EA%B8%B0-%EC%9E%90%EB%B0%94%EC%8A%A4%ED%81%AC%EB%A6%BD%ED%8A%B8-%EC%97%94%EC%A7%84-%EC%9D%B4%EB%B2%A4%ED%8A%B8%EB%A3%A8%ED%94%84)
-- [자바스크립트는 싱글 스레드인데 왜 비동기가 가능할까?
-  ](https://stitchcoding.tistory.com/44)
+- [자바스크립트는 싱글 스레드인데 왜 비동기가 가능할까?](https://stitchcoding.tistory.com/44)
 - [백엔드 개발자들이 알아야할 동시성 2 — 블로킹과 논블로킹, 동기와 비동기](https://choi-geonu.medium.com/백엔드-개발자들이-알아야할-동시성-2-블로킹과-논블로킹-동기와-비동기-e11b3d01fdf8)
 - [블럭,논블럭,동기,비동기 이야기](https://hamait.tistory.com/930)
 - [Blocking I/O와 Non-blocking I/O](https://youtu.be/XNGfl3sfErc)
